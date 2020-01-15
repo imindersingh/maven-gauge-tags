@@ -5,10 +5,11 @@ import pprint
 import re
 import glob
 from tabulate import tabulate
+import sys
 
-POM_FILE = 'pom.xml'
 SPEC_FILE = '.spec'
-SPECS_DIR = "./specs"
+POM_FILE = str(sys.argv[1])
+SPECS_DIR = str(sys.argv[2])
 
 def load_file(file):
     if file is POM_FILE:
