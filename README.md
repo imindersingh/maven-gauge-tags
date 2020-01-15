@@ -15,9 +15,7 @@ Run the following command in the terminal to install the script dependencies:
 
 Run the script as follows:
 
-```
-python find_unused_tags.py <PATH TO POM> <SPECS DIR>
-```
+``python find_unused_tags.py <PATH TO POM> <SPECS DIR>``
 
 For example:
 
