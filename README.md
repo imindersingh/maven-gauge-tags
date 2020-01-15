@@ -1,4 +1,4 @@
-	# Unused Tags
+# Unused Tags
 
 This script finds all unused tags in the specs that are not in the pom.xml
 
