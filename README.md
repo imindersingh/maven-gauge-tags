@@ -1,6 +1,9 @@
 # Unused Tags
 
-This script finds all unused tags in the specs that are not in the pom.xml
+This script will:
+
+- Find all unused tags in the specs that are not in the pom.xml
+- Find all specs which don't have any tags (meaning they are probably not being run anywhere!)
 
 ## Requirements 
 
