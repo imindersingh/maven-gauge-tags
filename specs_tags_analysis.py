@@ -22,7 +22,6 @@ def load_file(file):
             return (contents)    
     except:
         print ("Something went in load_file",sys.exc_info())
-        sys.exit()
       
 def get_artifact_id(xml_doc):
     try:
@@ -34,7 +33,7 @@ def get_artifact_id(xml_doc):
 def get_all_tags_from_pom(file_path):
     xml_doc = load_file(file_path)
     list_of_tags = []
-    try:    
+    try:           
         doc_properties = xml_doc['project']['profiles']['profile']
         list_of_properties = [properties['properties']
                         for properties in doc_properties]
@@ -44,7 +43,6 @@ def get_all_tags_from_pom(file_path):
         return list(list_of_tags)         
     except:
         print ("Something went wrong in get_all_tags_from_pom. ", sys.exc_info())
-        sys.exit()
 
 def filter_pom_tags(list_of_tags):
     flat_list_of_tags = []
@@ -55,8 +53,7 @@ def filter_pom_tags(list_of_tags):
                 flat_list_of_tags.append(tag.lower())      
         return list(flat_list_of_tags)
     except:
-        print ("Something went wrong in filter_pom_tags", sys.exc_info())
-        sys.exit()      
+        print ("Something went wrong in filter_pom_tags", sys.exc_info())   
   
 def get_unique_tags(tags_list):
     try:
@@ -64,36 +61,35 @@ def get_unique_tags(tags_list):
         return (unique_list)       
     except:
         print ("Something went wrong in get_unique_tags", sys.exc_info())
-        sys.exit()      
 
 def get_list_of_specs(dir_name):
     try:
         return list(glob.glob(dir_name + '/**/*.[sS][pP][eE][cC]', recursive=True)) 
     except:
         print("Something went wrong in get_list_of_specs", sys.exc_info())
-        sys.exit()
              
 def get_spec_tags(spec):
-    spec_tags = []
-    list_of_specs_with_no_tags = []
+    spec_tags_list = []
     try:
         for line in spec:
-            tags = "tags:"
-            if tags in line.casefold():
-                spec_tags = re.findall(r'(?!tags:)\b[\w\-]+', line.lower())                               
-        
-        unique_tags = get_unique_tags(spec_tags)       
+            tags = re.match(r'(?:tags\s*:)+', line.casefold())
+            if tags:
+                spec_tags = re.findall(r'(?!tags\s*:)\b[\w\-]+', line.casefold())
+            
+                for tag in spec_tags:
+                    spec_tags_list.append(tag)    
+               
+        unique_tags = get_unique_tags(spec_tags_list)       
         return (unique_tags)
     except:
-        print ("Something went wrong in get_spec_tags", sys.exc_info())
-        sys.exit()        
+        print ("Something went wrong in get_spec_tags", sys.exc_info())        
 
 def get_specs_with_no_tags(list_of_specs):
     list_of_specs_with_no_tags = []
     try:
         for spec in list_of_specs:
             contents = load_file(spec)
-            if not re.findall(r'(?i)(tags:)', ''.join(contents)):
+            if not re.findall(r'(?i)(tags)', ''.join(contents)):
                 list_of_specs_with_no_tags.append(spec)
             
         if list_of_specs_with_no_tags:
@@ -101,8 +97,7 @@ def get_specs_with_no_tags(list_of_specs):
         else:
             print ("Specs with no tag were not found")
     except:
-        print ("Something went wrong in get_specs_with_no_tags", sys.exc_info())
-        sys.exit()       
+        print ("Something went wrong in get_specs_with_no_tags", sys.exc_info())     
         
 def get_spec_tags_not_in_pom(pom_tags, list_of_specs):
     table = []
