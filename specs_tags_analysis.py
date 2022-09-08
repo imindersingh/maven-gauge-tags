@@ -21,13 +21,13 @@ def load_file(file):
                 contents = f.read().splitlines()
             return (contents)    
     except:
-        print ("Something went in load_file",sys.exc_info())
+        print ("Something went wrong in load_file",sys.exc_info())
       
 def get_artifact_id(xml_doc):
     try:
         return xml_doc['project']['artifactId']
     except:
-        print ("Something went in get_artifact_id", sys.exc_info())
+        print ("Something went wrong in get_artifact_id", sys.exc_info())
         sys.exit()
         
 def get_all_tags_from_pom(file_path):
